@@ -12,9 +12,11 @@ var gl;
 
 /* N x M array to be generated */
 
-var scale = 0.125;
-var cx = -2.0;             /* center of window in complex plane */
-var cy = -1.0;
+var scale = 1.0 / 4.0;
+var cx = 0.0;             /* center of window in complex plane */
+var cy = 0.0;
+var colorX = 0.0;
+var colorY = 0.0;
 var max = 100;             /* number of interations per point */
 
 var n = 1024;
@@ -38,12 +40,12 @@ onload = function init() {
     // Create and initialize a buffer object
 
     var points = [
-        vec4(0.0, 0.0, 0.0, 1.0),
-        vec4(0.0, 1.0, 0.0, 1.0),
+        vec4(-1.0, -1.0, 0.0, 1.0),
+        vec4(-1.0, 1.0, 0.0, 1.0),
         vec4(1.0, 1.0, 0.0, 1.0),
         vec4(1.0, 1.0, 0.0, 1.0),
-        vec4(1.0, 0.0, 0.0, 1.0),
-        vec4(0.0, 0.0, 0.0, 1.0)
+        vec4(1.0, -1.0, 0.0, 1.0),
+        vec4(-1.0, -1.0, 0.0, 1.0)
     ];
 
     // Load shaders and use the resulting shader program
@@ -76,6 +78,12 @@ onload = function init() {
     document.getElementById("Size").onchange = function (event) {
         scale = 1.0 / event.target.value;
         gl.uniform1f(gl.getUniformLocation(program, "scale"), scale);
+    };
+    document.onmousemove = function (event) {
+        colorX = event.clientX / window.innerWidth;
+        colorY = event.clientY / window.innerHeight;
+        gl.uniform1f(gl.getUniformLocation(program, "colorX"), colorX);
+        gl.uniform1f(gl.getUniformLocation(program, "colorY"), colorY);
     };
 
 
